@@ -40,8 +40,11 @@ int main(int argc, char *argv[]) {
     pthread_join(p1, NULL);
     pthread_join(p2, NULL);
 
+     // Imprimir el valor de counter1 y counter2 antes del total
+    printf("Final values: [counter1: %d, counter2: %d]\n", counter1, counter2);
+
     // Suma los contadores individuales para obtener el total
     int total = counter1 + counter2;
-    printf("main: done\n [counter: %d]\n [should: %d]\n", total, max * 2);
+    printf("main: done\n [total counter: %d]\n [should: %d]\n", total, max * 2);
     return 0;
 }
