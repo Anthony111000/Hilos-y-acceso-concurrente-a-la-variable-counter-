@@ -9,11 +9,12 @@ int max; // Variable global que indica cuántas veces cada hilo debe incrementar
 void *mythread(void *arg) {
     int *counter = (int *)arg; // Puntero a un entero, que apunta al contador propio de cada hilo
     int i; // Variable local que es privada para cada hilo
-
+    printf("Thread: begin [addr of counter: %p]\n", counter);
+    
     for (i = 0; i < max; i++) {
         (*counter)++; // Incrementa el contador del hilo correspondiente
     }
-
+    printf("Thread: done\n");
     return NULL;
 }
 
@@ -24,11 +25,14 @@ int main(int argc, char *argv[]) {
     }
 
     max = atoi(argv[1]);
-    
     // Variables locales para almacenar el contador de cada hilo
     int counter1 = 0, counter2 = 0;
+    // Identificadores de hilo
+    pthread_t p1, p2; 
 
-    pthread_t p1, p2; // Identificadores de hilo
+     // Imprimir estado inicial del contador
+    printf("main: begin [counter1 = %d, counter2 = %d] [addr of counter1: %p, addr of counter2: %p]\n", counter1, counter2, &counter1, &counter2);
+
     pthread_create(&p1, NULL, mythread, &counter1);
     pthread_create(&p2, NULL, mythread, &counter2);
 
@@ -38,6 +42,6 @@ int main(int argc, char *argv[]) {
 
     // Suma los contadores individuales para obtener el total
     int total = counter1 + counter2;
-    printf("Final counter value: %d\n", total);
+    printf("main: done\n [counter: %d]\n [should: %d]\n", total, max * 2);
     return 0;
 }
